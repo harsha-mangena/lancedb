@@ -39,8 +39,8 @@ def get_document_title(document):
 
 def download_docs():
     pandas_docs = requests.get(
-        "https://eto-public.s3.us-west-2.amazonaws.com/datasets/pandas_docs/pandas.documentation.zip"
-    )
+        "https://eto-public.s3.us-west-2.amazonaws.com/datasets/pandas_docs/pandas.documentation.zip", 
+    timeout=60)
     with open(Path("pandas.documentation.zip"), "wb") as f:
         f.write(pandas_docs.content)
 

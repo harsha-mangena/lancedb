@@ -132,7 +132,7 @@ def test_openclip(tmp_path):
         "http://farm6.staticflickr.com/5142/5835678453_4f3a4edb45_z.jpg",
     ]
     # get each uri as bytes
-    image_bytes = [requests.get(uri).content for uri in uris]
+    image_bytes = [requests.get(uri, timeout=60).content for uri in uris]
     table.add(
         pd.DataFrame({"label": labels, "image_uri": uris, "image_bytes": image_bytes})
     )
@@ -154,7 +154,7 @@ def test_openclip(tmp_path):
 
     # image search
     query_image_uri = "http://farm1.staticflickr.com/200/467715466_ed4a31801f_z.jpg"
-    image_bytes = requests.get(query_image_uri).content
+    image_bytes = requests.get(query_image_uri, timeout=60).content
     query_image = Image.open(io.BytesIO(image_bytes))
     actual = (
         table.search(query_image, vector_column_name="vector")
@@ -199,7 +199,7 @@ def test_imagebind(tmp_path):
             downloaded_image_paths = []
             for uri in image_uris:
                 try:
-                    response = requests.get(uri, stream=True)
+                    response = requests.get(uri, stream=True, timeout=60)
                     if response.status_code == 200:
                         # Extract image name from URI
                         image_name = os.path.basename(uri)
