@@ -13,7 +13,6 @@
 
 import functools
 import math
-import random
 import socket
 import sys
 import time
@@ -27,6 +26,7 @@ from lance.vector import vec_to_table
 from retry import retry
 
 from ..util import deprecated, safe_import_pandas
+import secrets
 
 pd = safe_import_pandas()
 
@@ -254,7 +254,7 @@ def retry_with_exponential_backoff(
                         f"Maximum number of retries ({max_retries}) exceeded.", e
                     )
 
-                delay *= exponential_base * (1 + jitter * random.random())
+                delay *= exponential_base * (1 + jitter * secrets.SystemRandom().random())
                 logging.warning(
                     "Error occurred: %s \n Retrying in %s seconds (retry %s of %s) \n",
                     e,
