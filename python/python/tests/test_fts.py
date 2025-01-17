@@ -11,13 +11,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 import os
-import random
 from unittest import mock
 
 import lancedb as ldb
 import numpy as np
 import pandas as pd
 import pytest
+import secrets
 
 pytest.importorskip("lancedb.fts")
 tantivy = pytest.importorskip("tantivy")
@@ -35,15 +35,15 @@ def table(tmp_path) -> ldb.table.LanceTable:
     text = [
         " ".join(
             [
-                nouns[random.randrange(0, 5)],
-                verbs[random.randrange(0, 5)],
-                adv[random.randrange(0, 5)],
-                adj[random.randrange(0, 5)],
+                nouns[secrets.SystemRandom().randrange(0, 5)],
+                verbs[secrets.SystemRandom().randrange(0, 5)],
+                adv[secrets.SystemRandom().randrange(0, 5)],
+                adj[secrets.SystemRandom().randrange(0, 5)],
             ]
         )
         for _ in range(100)
     ]
-    count = [random.randint(1, 10000) for _ in range(100)]
+    count = [secrets.SystemRandom().randint(1, 10000) for _ in range(100)]
     table = db.create_table(
         "test",
         data=pd.DataFrame(
