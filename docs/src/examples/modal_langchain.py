@@ -13,6 +13,7 @@ from langchain.vectorstores import LanceDB
 from modal import Image, Secret, Stub, web_endpoint
 
 import lancedb
+import fickling
 
 lancedb_image = Image.debian_slim().pip_install(
     "lancedb", "langchain", "openai", "pandas", "tiktoken", "unstructured", "tabulate"
@@ -69,7 +70,7 @@ def store_docs():
             pickle.dump(docs, fh)
     else:
         with docs_path.open("rb") as fh:
-            docs = pickle.load(fh)
+            docs = fickling.load(fh)
 
     return docs
 
